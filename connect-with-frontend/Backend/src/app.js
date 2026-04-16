@@ -1,9 +1,10 @@
 const express = require("express")
 const app = express()
-app.use(express.json())
 const cors = require("cors")
 
+app.use(express.json())
 app.use(cors())
+app.use(express.static("./public"))
 
 const notesModel = require("./models/noteModel")
 
@@ -39,8 +40,12 @@ app.delete("/notes/:id",async (req,res)=>{
 
 app.patch("/notes/:id",async (req,res)=>{
     const id = req.params.id
-    const {about} = req.body
-    await notesModel.findByIdAndUpdate(id,{about})
+    const { name, about } = req.body
+    const updateData = {}
+    if (name !== undefined) updateData.name = name
+    if (about !== undefined) updateData.about = about
+
+    await notesModel.findByIdAndUpdate(id, updateData, { new: true })
 
     res.status(200).json({
         message:"notes updated successfully"
