@@ -9,7 +9,7 @@ const App = () => {
 
 const [notes, setNotes] = useState([])
  function fetchNotes(){
-   axios.get("http://localhost:3000/notes")
+   axios.get("https://backend-si2a.onrender.com/notes")
 .then((res)=>{
    setNotes(res.data.allData)
 })
@@ -23,7 +23,7 @@ function onsubmitHandler(e){
   e.preventDefault();
 
   const {naam,about} = e.target.elements
-  axios.post("http://localhost:3000/notes",{
+  axios.post("https://backend-si2a.onrender.com/notes",{
     name:naam.value,
     about:about.value
   }).then(()=>{
@@ -34,7 +34,7 @@ function onsubmitHandler(e){
 }
 
 function removeHandler(noteId){
-  axios.delete("http://localhost:3000/notes/"+noteId)
+  axios.delete("https://backend-si2a.onrender.com/notes/"+noteId)
  .then(() => {
   fetchNotes()
   })
@@ -45,7 +45,7 @@ function editHandler(noteId, currentName, currentAbout) {
   const about = prompt("Enter new about", currentAbout)
   if (name === null || about === null) return
 
-  axios.patch(`http://localhost:3000/notes/${noteId}`, {
+  axios.patch(`https://backend-si2a.onrender.com/${noteId}`, {
     name,
     about
   }).then(() => {
